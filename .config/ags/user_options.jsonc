@@ -23,8 +23,8 @@
     },
     "icons": {
         "substitutions": {
-            "dev.zed.zed-dev": "accessories-text-editor",
-            "zed": "accessories-text-editor"
+            "dev.zed.zed-dev": "zed",
+            "zed": "zed"
         }
     },
     "sidebar": {

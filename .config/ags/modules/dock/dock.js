@@ -15,7 +15,7 @@ import { substitute } from '../.miscutils/icons.js';
 
 const icon_files = userOptions.icons.searchPaths.map(e => getAllFiles(e)).flat(1)
 
-let isPinned = false
+let isPinned = true
 let cachePath = new Map()
 
 let timers = []

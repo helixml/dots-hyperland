@@ -87,12 +87,12 @@ tooltip {
 /////////////////////////////////////////
 // Emoji Chooser structure
 // popover
-// ├── box.emoji-searchbar
-// │   ╰── entry.search
-// ╰── box.emoji-toolbar
-//     ├── button.image-button.emoji-section
-//     ├── ...
-//     ╰── button.image-button.emoji-section
+// +-- box.emoji-searchbar
+// |   +-- entry.search
+// +-- box.emoji-toolbar
+//     +-- button.image-button.emoji-section
+//     +-- ...
+//     +-- button.image-button.emoji-section
 
 popover {
     @include elevation-border-softer;

@@ -79,17 +79,19 @@ export default (monitor = 0) => {
         extraProgressClassName: 'osd-volume-progress',
         attribute: { headphones: undefined , device: undefined},
         nameSetup: (self) => Utils.timeout(1, () => {
-            const updateAudioDevice = (self) => {
+            const updateAudioDevice = () => {
                 const usingHeadphones = (Audio.speaker?.stream?.port)?.toLowerCase().includes('headphone');
                 if (volumeIndicator.attribute.headphones === undefined ||
                     volumeIndicator.attribute.headphones !== usingHeadphones) {
                     volumeIndicator.attribute.headphones = usingHeadphones;
-                    self.label = usingHeadphones ? 'Headphones' : 'Speakers';
+                    if (self && self.label !== undefined) {
+                        self.label = usingHeadphones ? 'Headphones' : 'Speakers';
+                    }
                     // Indicator.popup(1);
                 }
             }
             self.hook(Audio, updateAudioDevice);
-            Utils.timeout(1000, updateAudioDevice);
+            Utils.timeout(1000, () => updateAudioDevice());
         }),
         labelSetup: (self) => self.hook(Audio, (label) => {
             const newDevice = (Audio.speaker?.name);

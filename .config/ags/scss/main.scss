@@ -27,12 +27,12 @@
 // Music is put last as it might mess stuff up with pywal
 @import './music'; // Everything related to music is here
 
-// Classes for interaction
+// Classes for interaction (disabled for container performance)
 .growingRadial {
-    transition: 300ms cubic-bezier(0.2, 0.0, 0, 1.0);
+    transition: none !important;
 }
 .fadingRadial {
-    transition: 50ms cubic-bezier(0.2, 0.0, 0, 1.0);
+    transition: none !important;
 }
 .sidebar-pinned {
     margin: 0rem;
@@ -40,3 +40,6 @@
     border-bottom-right-radius: $rounding_large;
     border: 0rem solid;
 }
+
+// Container fixes must be last to override everything
+@import 'container_fixes'; // Container-specific performance fixes
