@@ -1,0 +1,36 @@
+// Library mixin overrides for container compatibility
+// This file provides container-specific overrides for the main mixins
+
+// Ensure Material Icons font is properly loaded for containers
+@mixin icon-material {
+    // Material Design Icons with font fallbacks
+    font-family: "Material Symbols Rounded", "MaterialSymbolsRounded", "Material Symbols Outlined",
+        "Material Symbols Sharp", "Material Icons", sans-serif;
+    
+    // Font feature settings for proper icon rendering
+    font-feature-settings: 'liga';
+    -webkit-font-feature-settings: 'liga';
+    -moz-font-feature-settings: 'liga';
+    
+    // Optimize icon rendering (using valid CSS properties)
+    -webkit-font-smoothing: none;
+}
+
+// Use user_options.jsonc to disable animations instead of overriding mixins
+// This avoids CSS parse errors while still achieving zero animations
+
+// Performance optimizations for VNC
+@mixin shadow-opt {
+    box-shadow: none;
+}
+
+@mixin blur-opt {
+    backdrop-filter: none;
+    filter: none;
+}
+
+// Symbolic icon mixin (missing from original)
+@mixin symbolic-icon {
+    @include icon-material;
+    // font-variation-settings removed as it's not supported in GTK CSS
+}

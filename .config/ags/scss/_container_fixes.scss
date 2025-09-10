@@ -1,0 +1,45 @@
+// Container-specific fixes for VNC performance
+// This file overrides animation/transition properties without breaking all styling
+
+// Only override animation and transition properties, not everything
+* {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+}
+
+// Specific fixes for known problematic classes
+.bar-batt,
+.bar-clock,
+.bar-sys,
+.bar-group,
+.sidebar,
+.sidebar-left,
+.sidebar-right,
+.dock,
+.dock-item,
+.cheatsheet,
+.osd,
+.overview,
+.workspace-overview {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+}
+
+// Fix hover effects
+.clickable:hover,
+.button:hover,
+.menu-item:hover {
+    transition-duration: 0s !important;
+}
+
+// Fix any remaining animation mixins that might generate invalid CSS
+.element-decel,
+.element-accel,
+.fluent-decel,
+.fluent-accel,
+.menu-decel,
+.menu-accel {
+    transition-duration: 0s !important;
+    animation-duration: 0s !important;
+}
