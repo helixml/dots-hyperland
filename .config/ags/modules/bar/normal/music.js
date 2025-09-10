@@ -76,9 +76,16 @@ const BarResource = (name, icon, command, circprogClassName = `bar-batt-circprog
             ],
             setup: (self) => self.poll(5000, () => execAsync(['bash', '-c', command])
                 .then((output) => {
-                    resourceCircProg.css = `font-size: ${Number(output)}px;`;
-                    resourceLabel.label = `${Math.round(Number(output))}%`;
-                    widget.tooltipText = `${name}: ${Math.round(Number(output))}%`;
+                    // Check if widgets are still valid before updating
+                    if (resourceCircProg && !resourceCircProg.is_destroyed) {
+                        resourceCircProg.css = `font-size: ${Number(output)}px;`;
+                    }
+                    if (resourceLabel && !resourceLabel.is_destroyed) {
+                        resourceLabel.label = `${Math.round(Number(output))}%`;
+                    }
+                    if (widget && !widget.is_destroyed) {
+                        widget.tooltipText = `${name}: ${Math.round(Number(output))}%`;
+                    }
                 }).catch(print))
             ,
         })
@@ -88,6 +95,9 @@ const BarResource = (name, icon, command, circprogClassName = `bar-batt-circprog
 
 const TrackProgress = () => {
     const _updateProgress = (circprog) => {
+        // Check if widget is still valid before updating
+        if (!circprog || circprog.is_destroyed) return;
+        
         const mpris = Mpris.getPlayer('');
         if (!mpris)
             circprog.css = `font-size: ${userOptions.appearance.borderless ? 100 : 0}px;`

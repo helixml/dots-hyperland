@@ -50,7 +50,7 @@ export const Bar = async (monitor = 0) => {
         centerWidget: Widget.Box({
             className: 'spacing-h-4',
             children: [
-                SideModule([Music()]),
+                // SideModule([Music()]), // Disabled for container - causing disposal errors
                 Widget.Box({
                     homogeneous: true,
                     children: [await NormalOptionalWorkspaces()],
@@ -76,10 +76,11 @@ export const Bar = async (monitor = 0) => {
         }),
         endWidget: Widget.Box({}),
         setup: (self) => {
-            self.hook(Battery, (self) => {
-                if (!Battery.available) return;
-                self.toggleClassName('bar-bg-focus-batterylow', Battery.percent <= userOptions.battery.low);
-            })
+            // Battery hook disabled for container
+            // self.hook(Battery, (self) => {
+            //     if (!Battery.available) return;
+            //     self.toggleClassName('bar-bg-focus-batterylow', Battery.percent <= userOptions.battery.low);
+            // })
         }
     });
     const nothingContent = Widget.Box({
