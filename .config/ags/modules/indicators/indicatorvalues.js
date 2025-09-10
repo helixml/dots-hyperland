@@ -3,7 +3,7 @@ import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
 const { Box, Label, ProgressBar } = Widget;
 import { MarginRevealer } from '../.widgethacks/advancedrevealers.js';
-import Brightness from '../../services/brightness.js';
+// import Brightness from '../../services/brightness.js'; // Disabled for container
 import Indicator from '../../services/indicator.js';
 import { MaterialIcon } from '../.commonwidgets/materialicon.js';
 
@@ -57,20 +57,21 @@ const OsdValue = ({
 }
 
 export default (monitor = 0) => {
-    const brightnessIndicator = OsdValue({
-        name: 'Brightness',
-        icon: 'light_mode',
-        extraClassName: 'osd-brightness',
-        extraProgressClassName: 'osd-brightness-progress',
-        labelSetup: (self) => self.hook(Brightness[monitor], self => {
-            self.label = `${Math.round(Brightness[monitor].screen_value * 100)}`;
-        }, 'notify::screen-value'),
-        progressSetup: (self) => self.hook(Brightness[monitor], (progress) => {
-            const updateValue = Brightness[monitor].screen_value;
-            if (updateValue !== progress.value) Indicator.popup(1);
-            progress.value = updateValue;
-        }, 'notify::screen-value'),
-    });
+    // Brightness indicator disabled for container
+    // const brightnessIndicator = OsdValue({
+    //     name: 'Brightness',
+    //     icon: 'light_mode',
+    //     extraClassName: 'osd-brightness',
+    //     extraProgressClassName: 'osd-brightness-progress',
+    //     labelSetup: (self) => self.hook(Brightness[monitor], self => {
+    //         self.label = `${Math.round(Brightness[monitor].screen_value * 100)}`;
+    //     }, 'notify::screen-value'),
+    //     progressSetup: (self) => self.hook(Brightness[monitor], (progress) => {
+    //         const updateValue = Brightness[monitor].screen_value;
+    //         if (updateValue !== progress.value) Indicator.popup(1);
+    //         progress.value = updateValue;
+    //     }, 'notify::screen-value'),
+    // });
 
     const volumeIndicator = OsdValue({
         name: 'Volume',
@@ -134,7 +135,7 @@ export default (monitor = 0) => {
             vertical: false,
             className: 'spacing-h--10',
             children: [
-                brightnessIndicator,
+                // brightnessIndicator, // Disabled for container
                 volumeIndicator,
             ]
         })

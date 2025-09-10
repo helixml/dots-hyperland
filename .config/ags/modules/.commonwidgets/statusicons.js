@@ -4,8 +4,8 @@ import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 
 import { MaterialIcon } from './materialicon.js';
-import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js';
-import Network from 'resource:///com/github/Aylur/ags/service/network.js';
+// import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js'; // Disabled for container
+// import Network from 'resource:///com/github/Aylur/ags/service/network.js'; // Disabled for container
 import Notifications from 'resource:///com/github/Aylur/ags/service/notifications.js';
 import { languages } from './statusicons_languages.js';
 
@@ -82,133 +82,35 @@ export const NotificationIndicator = (notifCenterName = 'sideright') => {
     return widget;
 }
 
-export const BluetoothIndicator = () => Widget.Stack({
-    transition: 'slide_up_down',
-    transitionDuration: userOptions.animations.durationSmall,
-    children: {
-        'disabled': Widget.Label({ className: 'txt-norm icon-material', label: 'bluetooth_disabled' }),
-        'enabled': Widget.Label({ className: 'txt-norm icon-material', label: 'bluetooth' }),
-        'connected': Widget.Label({ className: 'txt-norm icon-material', label: 'bluetooth_connected' }),
-    },
-    setup: (self) =>
-        self.hook(Bluetooth, (stack) => {
-            if (!Bluetooth.enabled) {
-                stack.shown = 'disabled';
-            } else if (Bluetooth.connected_devices.length === 0) {
-                stack.shown = 'enabled';
-            } else if (Bluetooth.connected_devices.length > 0) {
-                stack.shown = 'connected';
-            }
-        }),
+export const BluetoothIndicator = () => Widget.Label({
+    className: 'txt-norm icon-material',
+    label: 'bluetooth_disabled', // Always disabled for container
 });
 
 const BluetoothDevices = () => Widget.Box({
     className: 'spacing-h-5',
-    setup: self => self.hook(Bluetooth, self => {
-        self.children = Bluetooth.connected_devices.map((device) => {
-            return Widget.Box({
-                className: 'bar-bluetooth-device spacing-h-5',
-                vpack: 'center',
-                tooltipText: device.name,
-                children: [
-                    Widget.Icon(`${device.iconName}-symbolic`),
-                    ...(device.batteryPercentage ? [Widget.Label({
-                        className: 'txt-smallie',
-                        label: `${device.batteryPercentage}`,
-                        setup: (self) => {
-                            self.hook(device, (self) => {
-                                self.label = `${device.batteryPercentage}`;
-                            }, 'notify::batteryPercentage')
-                        }
-                    })] : []),
-                ]
-            });
-        });
-        self.visible = Bluetooth.connected_devices.length > 0;
-    }, 'notify::connected-devices'),
+    children: [], // No Bluetooth devices in container
+    visible: false,
 })
 
-const NetworkWiredIndicator = () => Widget.Stack({
-    transition: 'slide_up_down',
-    transitionDuration: userOptions.animations.durationSmall,
-    children: {
-        'fallback': SimpleNetworkIndicator(),
-        'unknown': Widget.Label({ className: 'txt-norm icon-material', label: 'wifi_off' }),
-        'disconnected': Widget.Label({ className: 'txt-norm icon-material', label: 'signal_wifi_off' }),
-        'connected': Widget.Label({ className: 'txt-norm icon-material', label: 'lan' }),
-        'connecting': Widget.Label({ className: 'txt-norm icon-material', label: 'settings_ethernet' }),
-    },
-    setup: (self) => self.hook(Network, stack => {
-        if (!Network.wired)
-            return;
-
-        const { internet } = Network.wired;
-        if (['connecting', 'connected'].includes(internet))
-            stack.shown = internet;
-        else if (Network.connectivity !== 'full')
-            stack.shown = 'disconnected';
-        else
-            stack.shown = 'fallback';
-    }),
+const NetworkWiredIndicator = () => Widget.Label({
+    className: 'txt-norm icon-material',
+    label: 'signal_wifi_off', // Network disabled for container
 });
 
 const SimpleNetworkIndicator = () => Widget.Icon({
-    setup: (self) => self.hook(Network, self => {
-        const icon = Network[Network.primary || 'wifi']?.iconName;
-        self.icon = icon || '';
-        self.visible = icon;
-    }),
+    icon: 'network-wireless-disabled-symbolic', // Network disabled for container
+    visible: true,
 });
 
-const NetworkWifiIndicator = () => Widget.Stack({
-    transition: 'slide_up_down',
-    transitionDuration: userOptions.animations.durationSmall,
-    children: {
-        'disabled': Widget.Label({ className: 'txt-norm icon-material', label: 'signal_wifi_off' }),
-		'disconnected': Widget.Label({
-			className: 'txt-norm icon-material',
-			label: 'signal_wifi_statusbar_not_connected',
-		}),
-        'connecting': Widget.Label({ className: 'txt-norm icon-material', label: 'settings_ethernet' }),
-        '0': Widget.Label({ className: 'txt-norm icon-material', label: 'signal_wifi_0_bar' }),
-        '1': Widget.Label({ className: 'txt-norm icon-material', label: 'network_wifi_1_bar' }),
-        '2': Widget.Label({ className: 'txt-norm icon-material', label: 'network_wifi_2_bar' }),
-        '3': Widget.Label({ className: 'txt-norm icon-material', label: 'network_wifi_3_bar' }),
-        '4': Widget.Label({ className: 'txt-norm icon-material', label: 'signal_wifi_4_bar' }),
-    },
-    setup: (self) => self.hook(Network, (stack) => {
-        if (!Network.wifi) {
-            return;
-        }
-        if (!Network.wifi.enabled) {
-            stack.shown = 'disabled';
-        } else if (Network.wifi.internet == 'connected') {
-            stack.shown = String(Math.ceil(Network.wifi.strength / 25));
-        } else if (['disconnected', 'connecting'].includes(Network.wifi.internet)) {
-            stack.shown = Network.wifi.internet;
-        }
-    }),
+const NetworkWifiIndicator = () => Widget.Label({
+    className: 'txt-norm icon-material',
+    label: 'signal_wifi_off', // Network disabled for container
 });
 
-export const NetworkIndicator = () => Widget.Stack({
-    transition: 'slide_up_down',
-    transitionDuration: userOptions.animations.durationSmall,
-    children: {
-        'fallback': SimpleNetworkIndicator(),
-        'wifi': NetworkWifiIndicator(),
-        'wired': NetworkWiredIndicator(),
-    },
-    setup: (self) => self.hook(Network, stack => {
-        if (!Network.primary) {
-            stack.shown = 'wifi';
-            return;
-        }
-        const primary = Network.primary || 'fallback';
-        if (['wifi', 'wired'].includes(primary))
-            stack.shown = primary;
-        else
-            stack.shown = 'fallback';
-    }),
+export const NetworkIndicator = () => Widget.Label({
+    className: 'txt-norm icon-material',
+    label: 'signal_wifi_off', // Network disabled for container
 });
 
 const HyprlandXkbKeyboardLayout = async ({ useFlag } = {}) => {

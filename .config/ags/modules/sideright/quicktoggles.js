@@ -3,10 +3,10 @@ import App from 'resource:///com/github/Aylur/ags/app.js';
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 
-import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js';
-import Network from 'resource:///com/github/Aylur/ags/service/network.js';
+// import Bluetooth from 'resource:///com/github/Aylur/ags/service/bluetooth.js'; // Disabled for container
+// import Network from 'resource:///com/github/Aylur/ags/service/network.js'; // Disabled for container
 const { execAsync, exec } = Utils;
-import { BluetoothIndicator, NetworkIndicator } from '../.commonwidgets/statusicons.js';
+import { /* BluetoothIndicator, NetworkIndicator */ } from '../.commonwidgets/statusicons.js';
 import { setupCursorHover } from '../.widgetutils/cursorhover.js';
 import { MaterialIcon } from '../.commonwidgets/materialicon.js';
 import { sidebarOptionsStack } from './sideright.js';
@@ -14,18 +14,22 @@ import { sidebarOptionsStack } from './sideright.js';
 export const ToggleIconWifi = (props = {}) => Widget.Button({
     className: 'txt-small sidebar-iconbutton',
     tooltipText: getString('Wifi | Right-click to configure'),
-    onClicked: () => Network.toggleWifi(),
-    onSecondaryClickRelease: () => {
-        execAsync(['bash', '-c', `${userOptions.apps.network}`]).catch(print);
+    onClicked: () => {
+        // Network disabled for container
         closeEverything();
     },
-    child: NetworkIndicator(),
+    onSecondaryClickRelease: () => {
+        // Network disabled for container
+        closeEverything();
+    },
+    child: Widget.Icon({
+        icon: 'network-wireless-disabled-symbolic',
+        className: 'txt-norm',
+    }),
     setup: (self) => {
         setupCursorHover(self);
-        self.hook(Network, button => {
-            button.toggleClassName('sidebar-button-active', [Network.wifi?.internet, Network.wired?.internet].includes('connected'))
-            button.tooltipText = (`${Network.wifi?.ssid} | ${getString("Right-click to configure")}` || getString('Unknown'));
-        });
+        // Network disabled for container
+        self.toggleClassName('sidebar-button-active', false);
     },
     ...props,
 });
@@ -34,22 +38,21 @@ export const ToggleIconBluetooth = (props = {}) => Widget.Button({
     className: 'txt-small sidebar-iconbutton',
     tooltipText: getString('Bluetooth | Right-click to configure'),
     onClicked: () => {
-        const status = Bluetooth?.enabled;
-        if (status)
-            exec('rfkill block bluetooth');
-        else
-            exec('rfkill unblock bluetooth');
-    },
-    onSecondaryClickRelease: () => {
-        execAsync(['bash', '-c', `${userOptions.apps.bluetooth}`]).catch(print);
+        // Bluetooth disabled for container
         closeEverything();
     },
-    child: BluetoothIndicator(),
+    onSecondaryClickRelease: () => {
+        // Bluetooth disabled for container
+        closeEverything();
+    },
+    child: Widget.Icon({
+        icon: 'bluetooth-disabled-symbolic',
+        className: 'txt-norm',
+    }),
     setup: (self) => {
         setupCursorHover(self);
-        self.hook(Bluetooth, button => {
-            button.toggleClassName('sidebar-button-active', Bluetooth?.enabled)
-        });
+        // Bluetooth disabled for container
+        self.toggleClassName('sidebar-button-active', false);
     },
     ...props,
 });

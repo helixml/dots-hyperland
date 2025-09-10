@@ -1,6 +1,6 @@
 import App from 'resource:///com/github/Aylur/ags/app.js';
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import Brightness from '../../../services/brightness.js';
+// import Brightness from '../../../services/brightness.js'; // Disabled for container
 import Indicator from '../../../services/indicator.js';
 import { distance } from '../../.miscutils/mathfuncs.js';
 

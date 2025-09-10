@@ -37,7 +37,7 @@ function forMonitorsAsync(widget) {
 handleStyles(true);
 startAutoDarkModeService().catch(print);
 firstRunWelcome().catch(print);
-startBatteryWarningService().catch(print)
+// startBatteryWarningService().catch(print) // Disabled for container
 
 const Windows = () => [
     // forMonitors(DesktopBackground),

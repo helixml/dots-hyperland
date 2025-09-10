@@ -1,6 +1,6 @@
 const { Gtk } = imports.gi;
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
-import Battery from 'resource:///com/github/Aylur/ags/service/battery.js';
+// import Battery from 'resource:///com/github/Aylur/ags/service/battery.js'; // Disabled for container
 
 import WindowTitle from "./normal/spaceleft.js";
 import Indicators from "./normal/spaceright.js";

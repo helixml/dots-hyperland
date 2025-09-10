@@ -3,7 +3,7 @@ import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
-import Soup from 'gi://Soup?version=3.0';
+// import Soup from 'gi://Soup?version=3.0'; // Disabled for container
 import { fileExists } from '../modules/.miscutils/files.js';
 
 const HISTORY_DIR = `${GLib.get_user_state_dir()}/ags/user/ai/chats/`;
@@ -282,53 +282,12 @@ class GeminiService extends Service {
     }
 
     send(msg) {
+        // Gemini service disabled for container
         this._messages.push(new GeminiMessage('user', msg, false));
         this.emit('newMsg', this._messages.length - 1);
-        const aiResponse = new GeminiMessage('model', '', true, false)
-
-        const body =
-        {
-            "contents": this._messages.map(msg => { let m = { role: msg.role, parts: msg.parts }; return m; }),
-            "safetySettings": this._safe ? [] : [
-                // { category: "HARM_CATEGORY_DEROGATORY", threshold: "BLOCK_NONE", },
-                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE", },
-                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE", },
-                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE", },
-                // { category: "HARM_CATEGORY_UNSPECIFIED", threshold: "BLOCK_NONE", },
-            ],
-            "generationConfig": {
-                "temperature": this._temperature,
-            },
-            "tools": [
-                {
-                    "google_search": {}
-                }
-            ]
-        };
-        const proxyResolver = new Gio.SimpleProxyResolver({ 'default-proxy': userOptions.ai.proxyUrl });
-        const session = new Soup.Session({ 'proxy-resolver': proxyResolver });
-        const message = new Soup.Message({
-            method: 'POST',
-            uri: GLib.Uri.parse(replaceapidom(`https://generativelanguage.googleapis.com/v1beta/models/${this.modelName}:streamGenerateContent?key=${this._key}`), GLib.UriFlags.NONE),
-        });
-        message.request_headers.append('Content-Type', `application/json`);
-        message.set_request_body_from_bytes('application/json', new GLib.Bytes(JSON.stringify(body)));
-
-        session.send_async(message, GLib.DEFAULT_PRIORITY, null, (_, result) => {
-            const stream = session.send_finish(result);
-            this.readResponse(new Gio.DataInputStream({
-                close_base_stream: true,
-                base_stream: stream
-            }), aiResponse);
-        });
+        const aiResponse = new GeminiMessage('model', 'Gemini service disabled in container', true, false);
         this._messages.push(aiResponse);
         this.emit('newMsg', this._messages.length - 1);
-
-        if (this._cycleModels) {
-            this._requestCount++;
-            if (this._cycleModels)
-                this._modelIndex = (this._requestCount - (this._requestCount % ONE_CYCLE_COUNT)) % CHAT_MODELS.length;
-        }
     }
 }
 

@@ -4,7 +4,7 @@ import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 const { Box, Label, Button, Overlay, Revealer, Scrollable, Stack, EventBox } = Widget;
 const { exec, execAsync } = Utils;
 const { GLib } = imports.gi;
-import Battery from 'resource:///com/github/Aylur/ags/service/battery.js';
+// import Battery from 'resource:///com/github/Aylur/ags/service/battery.js'; // Disabled for container
 import { MaterialIcon } from '../../.commonwidgets/materialicon.js';
 import { AnimatedCircProg } from "../../.commonwidgets/cairo_circularprogress.js";
 import { WWO_CODE, WEATHER_SYMBOL, NIGHT_WEATHER_SYMBOL } from '../../.commondata/weather.js';

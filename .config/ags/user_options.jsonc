@@ -15,5 +15,13 @@
 // "workspaces": {"shown": 8 }
 //
 {
-    
+    "dock": {
+        "enabled": true,
+        "pinnedApps": ["google-chrome", "firefox", "org.gnome.Nautilus", "foot", "ghostty"]
+    },
+    "battery": {
+        "warnLevels": [],
+        "warnTitles": [],
+        "warnMessages": []
+    }
 }

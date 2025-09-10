@@ -1,6 +1,6 @@
 const { Notify, GLib, Gio } = imports.gi;
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
-import Battery from 'resource:///com/github/Aylur/ags/service/battery.js';
+// import Battery from 'resource:///com/github/Aylur/ags/service/battery.js'; // Disabled for container
 
 export function fileExists(filePath) {
     let file = Gio.File.new_for_path(filePath);
@@ -16,8 +16,10 @@ const FIRST_RUN_NOTIF_BODY = `First run? For a list of keybinds, hit <span foreg
 
 var batteryWarned = false;
 async function batteryMessage() {
-    const perc = Battery.percent;
-    const charging = Battery.charging;
+    // Battery service disabled for container
+    return; // Skip battery monitoring
+    const perc = 100; // Battery.percent;
+    const charging = true; // Battery.charging;
     if (charging) {
         batteryWarned = false;
         return;
