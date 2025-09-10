@@ -31,6 +31,14 @@ const userOverrides = parseJSONC(userOverrideContents);
 // Override defaults with user's options
 overrideConfigRecursive(userOverrides, configOptions);
 
+// Apply animation performance override based on enableAnimations
+if (!configOptions.animations.enableAnimations) {
+    // If animations are disabled, override durations to minimal values for VNC performance
+    configOptions.animations.durationSmall = 1;
+    configOptions.animations.durationLarge = 1;
+    configOptions.animations.choreographyDelay = 1;
+}
+
 globalThis['userOptionsDefaults'] = defaultConfigOptions;
 globalThis['userOptions'] = configOptions;
 export default configOptions;

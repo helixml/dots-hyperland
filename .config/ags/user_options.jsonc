@@ -16,9 +16,9 @@
 //
 {
     "animations": {
-        "choreographyDelay": 0,
-        "durationSmall": 0,
-        "durationLarge": 0,
+        "choreographyDelay": 1,
+        "durationSmall": 1,
+        "durationLarge": 1,
         "enableAnimations": false
     },
     "icons": {
