@@ -41,5 +41,4 @@
     border: 0rem solid;
 }
 
-// Container fixes must be last to override everything
-@import 'container_fixes'; // Container-specific performance fixes
+// Container fixes disabled - too aggressive
