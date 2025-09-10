@@ -15,6 +15,29 @@
 // "workspaces": {"shown": 8 }
 //
 {
+    "animations": {
+        "choreographyDelay": 0,
+        "durationSmall": 0,
+        "durationLarge": 0,
+        "enableAnimations": false
+    },
+    "icons": {
+        "substitutions": {
+            "dev.zed.zed-dev": "accessories-text-editor",
+            "zed": "accessories-text-editor"
+        }
+    },
+    "sidebar": {
+        "pages": {
+            "apis": {
+                "order": [
+                    "gemini",
+                    "gpt"
+                ],
+                "defaultPage": "gemini"
+            }
+        }
+    },
     "dock": {
         "enabled": true,
         "pinnedApps": ["google-chrome", "firefox", "org.gnome.Nautilus", "foot", "ghostty"]

@@ -200,13 +200,14 @@ export const SearchAndWindows = () => {
                     entry.set_text(newText);
                     entry.set_position(newText.length);
                 }
-                else if (!(modstate & Gdk.ModifierType.CONTROL_MASK)) { // Ctrl not held
-                    if (keyval >= 32 && keyval <= 126 && widget != entry) {
-                        Utils.timeout(1, () => entry.grab_focus());
-                        entry.set_text(entry.text + String.fromCharCode(keyval));
-                        entry.set_position(-1);
-                    }
-                }
+                // Search auto-focus disabled - user must click search box to type
+                // else if (!(modstate & Gdk.ModifierType.CONTROL_MASK)) { // Ctrl not held
+                //     if (keyval >= 32 && keyval <= 126 && widget != entry) {
+                //         Utils.timeout(1, () => entry.grab_focus());
+                //         entry.set_text(entry.text + String.fromCharCode(keyval));
+                //         entry.set_position(-1);
+                //     }
+                // }
             })
         ,
     });
