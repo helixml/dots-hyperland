@@ -2,7 +2,7 @@ import App from 'resource:///com/github/Aylur/ags/app.js';
 import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
 
-import Audio from 'resource:///com/github/Aylur/ags/service/audio.js';
+// import Audio from 'resource:///com/github/Aylur/ags/service/audio.js'; // Disabled for container
 import SystemTray from 'resource:///com/github/Aylur/ags/service/systemtray.js';
 const { execAsync } = Utils;
 import Indicator from '../../../services/indicator.js';
@@ -76,20 +76,22 @@ export default (monitor = 0) => {
     let scrollCursorX, scrollCursorY;
     return Widget.EventBox({
         onScrollUp: (self, event) => {
-            if (!Audio.speaker) return;
+            // Audio disabled for container
+            // if (!Audio.speaker) return;
             let _;
             [_, scrollCursorX, scrollCursorY] = event.get_coords();
-            if (Audio.speaker.volume <= 0.09) Audio.speaker.volume += 0.01;
-            else Audio.speaker.volume += 0.03;
-            Indicator.popup(1);
+            // if (Audio.speaker.volume <= 0.09) Audio.speaker.volume += 0.01;
+            // else Audio.speaker.volume += 0.03;
+            // Indicator.popup(1);
         },
         onScrollDown: (self, event) => {
-            if (!Audio.speaker) return;
+            // Audio disabled for container
+            // if (!Audio.speaker) return;
             let _;
             [_, scrollCursorX, scrollCursorY] = event.get_coords();
-            if (Audio.speaker.volume <= 0.09) Audio.speaker.volume -= 0.01;
-            else Audio.speaker.volume -= 0.03;
-            Indicator.popup(1);
+            // if (Audio.speaker.volume <= 0.09) Audio.speaker.volume -= 0.01;
+            // else Audio.speaker.volume -= 0.03;
+            // Indicator.popup(1);
         },
         setup: (self) => self.on('motion-notify-event', (self, event) => {
             const [_, cursorX, cursorY] = event.get_coords();

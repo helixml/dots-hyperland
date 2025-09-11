@@ -40,7 +40,7 @@
     },
     "dock": {
         "enabled": true,
-        "pinnedApps": ["google-chrome", "firefox", "org.gnome.Nautilus", "foot", "ghostty"]
+        "pinnedApps": ["google-chrome", "firefox", "org.gnome.Nautilus", "foot", "com.mitchellh.ghostty"]
     },
     "battery": {
         "warnLevels": [],
